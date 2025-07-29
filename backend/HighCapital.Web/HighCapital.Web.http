@@ -1,0 +1,6 @@
+@HighCapital.Web_HostAddress = http://localhost:5211
+
+GET {{HighCapital.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
