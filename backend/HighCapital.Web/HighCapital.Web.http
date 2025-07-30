@@ -1,6 +1,49 @@
 @HighCapital.Web_HostAddress = http://localhost:5211
+@ContentType = application/json
 
-GET {{HighCapital.Web_HostAddress}}/weatherforecast/
+### Swagger UI
+GET {{HighCapital.Web_HostAddress}}/swagger
 Accept: application/json
 
-###
+### Registro de usuário
+POST {{HighCapital.Web_HostAddress}}/api/auth/register
+Content-Type: {{ContentType}}
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login
+POST {{HighCapital.Web_HostAddress}}/api/auth/login
+Content-Type: {{ContentType}}
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Listar chatbots (requer autenticação)
+GET {{HighCapital.Web_HostAddress}}/api/chatbots
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+### Criar chatbot (requer autenticação)
+POST {{HighCapital.Web_HostAddress}}/api/chatbots
+Authorization: Bearer {{auth_token}}
+Content-Type: {{ContentType}}
+
+{
+  "name": "Meu Chatbot",
+  "description": "Um chatbot de teste",
+  "context": "Você é um assistente útil que responde perguntas sobre tecnologia.",
+  "temperature": 0.7,
+  "model": "Gpt41Nano",
+  "maxTokens": 1024
+}
+
+### Obter perfil do usuário (requer autenticação)
+GET {{HighCapital.Web_HostAddress}}/api/users/profile
+Authorization: Bearer {{auth_token}}
+Accept: application/json

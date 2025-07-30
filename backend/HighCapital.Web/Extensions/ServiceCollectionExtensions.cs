@@ -31,6 +31,8 @@ namespace HighCapital.Web.Extensions
                         ValidAudience = jwtAudience,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                     };
+                    
+
                 });
 
             return services;
@@ -40,26 +42,53 @@ namespace HighCapital.Web.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HighCapital API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "HighCapital API", 
+                    Version = "v1",
+                    Description = "API para gerenciamento de chatbots com integração OpenAI",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "HighCapital Team",
+                        Email = ""
+                    },
+                });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header usando Bearer scheme. Exemplo: 'Bearer {token}'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT"
                 });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
-                        new OpenApiSecurityScheme{
-                            Reference = new OpenApiReference{
-                                Id = "Bearer",
-                                Type = ReferenceType.SecurityScheme
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
                             }
-                        }, new string[] {}
+                        },
+                        Array.Empty<string>()
                     }
                 });
+
+                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                if (File.Exists(xmlPath))
+                {
+                    c.IncludeXmlComments(xmlPath);
+                }
+
+                c.EnableAnnotations();
+                c.UseInlineDefinitionsForEnums();
+                c.SchemaFilter<EnumSchemaFilter>();
             });
 
             return services;
