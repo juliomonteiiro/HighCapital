@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using HighCapital.Domain.Entities;
 using HighCapital.Domain.Enums;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -18,6 +18,10 @@ namespace HighCapital.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<Chatbot>().ToTable("chatbots");
+            modelBuilder.Entity<Message>().ToTable("messages");
+
             modelBuilder.Entity<Chatbot>()
                 .Property(c => c.Model)
                 .HasConversion<string>();
@@ -25,4 +29,4 @@ namespace HighCapital.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
         }
     }
-}
+} 
