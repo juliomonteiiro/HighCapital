@@ -37,7 +37,6 @@ public class ChatbotService : IChatbotService
 
         await _chatbotRepository.AddAsync(chatbot);
 
-        // Cria a mensagem do sistema
         var systemMessage = new Domain.Entities.Message("system", request.Context, chatbot.Id);
         await _messageRepository.AddAsync(systemMessage);
 
@@ -77,6 +76,19 @@ public class ChatbotService : IChatbotService
         var chatbot = await _chatbotRepository.GetByIdAsync(chatbotId)
             ?? throw new Exception("Chatbot não encontrado");
 
+        // Busca mensagens para calcular estatísticas
+        var messages = await _messageRepository.GetByChatbotIdAsync(chatbot.Id);
+        var messagesList = messages.ToList();
+        
+        var userMessages = messagesList.Count(m => m.Role == "user");
+        var assistantMessages = messagesList.Count(m => m.Role == "assistant");
+        var totalTokens = messagesList.Sum(m => m.TokensUsed);
+        
+        var assistantMessagesWithTime = messagesList.Where(m => m.Role == "assistant" && m.ResponseTime > 0).ToList();
+        var avgResponseTime = assistantMessagesWithTime.Count > 0 
+            ? assistantMessagesWithTime.Average(m => m.ResponseTime) 
+            : 0;
+
         return new ChatbotResponse
         {
             Id = chatbot.Id,
@@ -88,9 +100,12 @@ public class ChatbotService : IChatbotService
             MaxTokens = chatbot.MaxTokens,
             CreatedAt = chatbot.CreatedAt,
             UpdatedAt = chatbot.UpdatedAt,
-            TotalMessages = chatbot.GetTotalMessages(),
-            TotalTokensUsed = chatbot.GetTotalTokensUsed(),
-            UserId = chatbot.UserId
+            TotalMessages = userMessages + assistantMessages,
+            TotalTokensUsed = totalTokens,
+            UserId = chatbot.UserId,
+            UserMessages = userMessages,
+            AssistantMessages = assistantMessages,
+            AverageResponseTime = (int)avgResponseTime
         };
     }
 
@@ -98,21 +113,43 @@ public class ChatbotService : IChatbotService
     {
         var chatbots = await _chatbotRepository.GetByUserIdAsync(userId);
         
-        return chatbots.Select(c => new ChatbotResponse
+        var chatbotResponses = new List<ChatbotResponse>();
+        
+        foreach (var chatbot in chatbots)
         {
-            Id = c.Id,
-            Name = c.Name,
-            Description = c.Description,
-            Context = c.Context,
-            Temperature = c.Temperature,
-            Model = c.Model,
-            MaxTokens = c.MaxTokens,
-            CreatedAt = c.CreatedAt,
-            UpdatedAt = c.UpdatedAt,
-            TotalMessages = c.GetTotalMessages(),
-            TotalTokensUsed = c.GetTotalTokensUsed(),
-            UserId = c.UserId
-        });
+            var messages = await _messageRepository.GetByChatbotIdAsync(chatbot.Id);
+            var messagesList = messages.ToList();
+            
+            var userMessages = messagesList.Count(m => m.Role == "user");
+            var assistantMessages = messagesList.Count(m => m.Role == "assistant");
+            var totalTokens = messagesList.Sum(m => m.TokensUsed);
+            
+            var assistantMessagesWithTime = messagesList.Where(m => m.Role == "assistant" && m.ResponseTime > 0).ToList();
+            var avgResponseTime = assistantMessagesWithTime.Count > 0 
+                ? assistantMessagesWithTime.Average(m => m.ResponseTime) 
+                : 0;
+            
+            chatbotResponses.Add(new ChatbotResponse
+            {
+                Id = chatbot.Id,
+                Name = chatbot.Name,
+                Description = chatbot.Description,
+                Context = chatbot.Context,
+                Temperature = chatbot.Temperature,
+                Model = chatbot.Model,
+                MaxTokens = chatbot.MaxTokens,
+                CreatedAt = chatbot.CreatedAt,
+                UpdatedAt = chatbot.UpdatedAt,
+                TotalMessages = userMessages + assistantMessages,
+                TotalTokensUsed = totalTokens,
+                UserId = chatbot.UserId,
+                UserMessages = userMessages,
+                AssistantMessages = assistantMessages,
+                AverageResponseTime = (int)avgResponseTime
+            });
+        }
+        
+        return chatbotResponses;
     }
 
     public async Task<IEnumerable<MessageResponse>> GetChatbotMessagesAsync(int chatbotId)
@@ -149,6 +186,18 @@ public class ChatbotService : IChatbotService
 
         await _chatbotRepository.UpdateAsync(chatbot);
 
+        var messages = await _messageRepository.GetByChatbotIdAsync(chatbot.Id);
+        var messagesList = messages.ToList();
+        
+        var userMessages = messagesList.Count(m => m.Role == "user");
+        var assistantMessages = messagesList.Count(m => m.Role == "assistant");
+        var totalTokens = messagesList.Sum(m => m.TokensUsed);
+        
+        var assistantMessagesWithTime = messagesList.Where(m => m.Role == "assistant" && m.ResponseTime > 0).ToList();
+        var avgResponseTime = assistantMessagesWithTime.Count > 0 
+            ? assistantMessagesWithTime.Average(m => m.ResponseTime) 
+            : 0;
+
         return new ChatbotResponse
         {
             Id = chatbot.Id,
@@ -160,9 +209,12 @@ public class ChatbotService : IChatbotService
             MaxTokens = chatbot.MaxTokens,
             CreatedAt = chatbot.CreatedAt,
             UpdatedAt = chatbot.UpdatedAt,
-            TotalMessages = chatbot.GetTotalMessages(),
-            TotalTokensUsed = chatbot.GetTotalTokensUsed(),
-            UserId = chatbot.UserId
+            TotalMessages = userMessages + assistantMessages,
+            TotalTokensUsed = totalTokens,
+            UserId = chatbot.UserId,
+            UserMessages = userMessages,
+            AssistantMessages = assistantMessages,
+            AverageResponseTime = (int)avgResponseTime
         };
     }
 

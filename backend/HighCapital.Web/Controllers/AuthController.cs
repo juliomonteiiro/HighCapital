@@ -87,4 +87,33 @@ public class AuthController : ControllerBase
             return StatusCode(500, new { message = $"Erro interno do servidor: {ex.Message}" });
         }
     }
+
+    /// <summary>
+    /// Refresh token
+    /// </summary>
+    /// <param name="request">Refresh token</param>
+    /// <returns>Novo token de autenticação e refresh token</returns>
+    /// <response code="200">Token renovado com sucesso</response>
+    /// <response code="400">Refresh token inválido</response>
+    /// <response code="500">Erro interno do servidor</response>
+    [HttpPost("refresh")]
+    [ProducesResponseType(typeof(AuthResponse), 200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
+    {
+        try
+        {
+            var result = await _authService.RefreshTokenAsync(request.RefreshToken);
+            return Ok(result);
+        }
+        catch (Exception ex) when (ex.Message.Contains("Refresh token inválido"))
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = $"Erro interno do servidor: {ex.Message}" });
+        }
+    }
 }

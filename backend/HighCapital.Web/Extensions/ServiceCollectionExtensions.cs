@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace HighCapital.Web.Extensions
 {
@@ -89,6 +90,21 @@ namespace HighCapital.Web.Extensions
                 c.EnableAnnotations();
                 c.UseInlineDefinitionsForEnums();
                 c.SchemaFilter<EnumSchemaFilter>();
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
             });
 
             return services;

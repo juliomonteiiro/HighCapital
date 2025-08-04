@@ -32,10 +32,12 @@ public class AuthService : IAuthService
         await _userRepository.AddAsync(newUser);
 
         var token = _jwtService.GenerateToken(newUser);
+        var refreshToken = _jwtService.GenerateRefreshToken(newUser);
 
         return new AuthResponse
         {
             Token = token,
+            RefreshToken = refreshToken,
             Name = newUser.Name,
             Email = newUser.Email
         };
@@ -48,10 +50,34 @@ public class AuthService : IAuthService
             throw new Exception("Credenciais inválidas");
 
         var token = _jwtService.GenerateToken(user);
+        var refreshToken = _jwtService.GenerateRefreshToken(user);
 
         return new AuthResponse
         {
             Token = token,
+            RefreshToken = refreshToken,
+            Name = user.Name,
+            Email = user.Email
+        };
+    }
+
+    public async Task<AuthResponse> RefreshTokenAsync(string refreshToken)
+    {
+        var userId = _jwtService.ValidateRefreshToken(refreshToken);
+        if (userId == null)
+            throw new Exception("Refresh token inválido");
+
+        var user = await _userRepository.GetByIdAsync(userId.Value);
+        if (user == null)
+            throw new Exception("Usuário não encontrado");
+
+        var newToken = _jwtService.GenerateToken(user);
+        var newRefreshToken = _jwtService.GenerateRefreshToken(user);
+
+        return new AuthResponse
+        {
+            Token = newToken,
+            RefreshToken = newRefreshToken,
             Name = user.Name,
             Email = user.Email
         };

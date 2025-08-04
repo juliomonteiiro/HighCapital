@@ -38,6 +38,15 @@ public class ChatbotResponse
     [JsonPropertyName("totalTokensUsed")]
     public int TotalTokensUsed { get; set; }
     
+    [JsonPropertyName("userMessages")]
+    public int UserMessages { get; set; }
+    
+    [JsonPropertyName("assistantMessages")]
+    public int AssistantMessages { get; set; }
+    
+    [JsonPropertyName("averageResponseTime")]
+    public int AverageResponseTime { get; set; }
+    
     [JsonPropertyName("userId")]
     public int UserId { get; set; }
 } 

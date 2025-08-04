@@ -9,6 +9,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
+builder.Services.AddCorsPolicy();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -21,6 +22,8 @@ builder.Services.AddControllers()
 var app = builder.Build();
 
 app.UseSwaggerDocumentation(app.Environment);
+
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 

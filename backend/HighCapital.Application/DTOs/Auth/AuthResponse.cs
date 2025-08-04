@@ -5,11 +5,14 @@ namespace HighCapital.Application.DTOs.Auth;
 public class AuthResponse
 {
     [JsonPropertyName("token")]
-    public string Token { get; set; } = string.Empty;
+    public required string Token { get; set; }
+    
+    [JsonPropertyName("refreshToken")]
+    public required string RefreshToken { get; set; }
     
     [JsonPropertyName("name")]
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
     
     [JsonPropertyName("email")]
-    public string Email { get; set; } = string.Empty;
+    public required string Email { get; set; }
 }
