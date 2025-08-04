@@ -1,69 +1,78 @@
-# React + TypeScript + Vite
+# HighCapital Chatbots - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Melhorias Implementadas
 
-Currently, two official plugins are available:
+### 🎨 Sistema de Temas
+- **Tema Claro/Escuro**: Implementado sistema completo de alternância entre temas
+- **Paleta de Cores Organizada**: Cores centralizadas em `src/styles/theme.ts`
+- **Persistência**: Preferência de tema salva no localStorage
+- **Design Consistente**: Todos os componentes adaptados para ambos os temas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🏠 Home Page Melhorada
+- **Navbar Redesenhada**: Header mais limpo e organizado
+- **Botão de Tema**: Alternância fácil entre tema claro/escuro
+- **Cards Otimizados**: Removidas informações de mensagens e tokens
+- **Layout Responsivo**: Grid adaptativo para diferentes tamanhos de tela
+- **Componente Header Reutilizável**: Header padronizado para toda a aplicação
 
-## Expanding the ESLint configuration
+### 🎯 Componentes Atualizados
+- **ChatbotCard**: Design mais limpo, sem métricas desnecessárias
+- **Header**: Componente reutilizável com tema e navegação
+- **ChatPage**: Interface adaptada para tema escuro
+- **ThemeContext**: Gerenciamento centralizado de temas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🎨 Paleta de Cores
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+#### Tema Claro
+- **Primário**: Azul (#1976d2)
+- **Secundário**: Verde (#2e7d32)
+- **Background**: Cinza claro (#f8f9fa)
+- **Texto**: Preto (#1a1a1a)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+#### Tema Escuro
+- **Primário**: Azul claro (#90caf9)
+- **Secundário**: Verde claro (#81c784)
+- **Background**: Cinza escuro (#121212)
+- **Texto**: Branco (#ffffff)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🚀 Funcionalidades
+- ✅ Alternância de tema em tempo real
+- ✅ Persistência da preferência do usuário
+- ✅ Design responsivo
+- ✅ Interface limpa e moderna
+- ✅ Componentes reutilizáveis
+- ✅ Navegação melhorada
+
+### 📁 Estrutura de Arquivos
+```
+src/
+├── contexts/
+│   ├── AuthContext.tsx
+│   └── ThemeContext.tsx      # Novo: Gerenciamento de temas
+├── components/
+│   ├── common/
+│   │   ├── Header.tsx        # Novo: Header reutilizável
+│   │   └── ...
+│   └── chatbot/
+│       └── ChatbotCard.tsx   # Atualizado: Design melhorado
+├── styles/
+│   └── theme.ts              # Novo: Paleta de cores
+├── pages/
+│   ├── HomePage.tsx          # Atualizado: Nova navbar
+│   └── ChatPage.tsx          # Atualizado: Tema escuro
+└── App.tsx                   # Atualizado: ThemeProvider
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 🎯 Próximos Passos
+- [ ] Implementar animações suaves
+- [ ] Adicionar mais opções de personalização
+- [ ] Melhorar acessibilidade
+- [ ] Otimizar performance
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 🛠️ Tecnologias Utilizadas
+- React 18
+- TypeScript
+- Material-UI (MUI)
+- Styled Components
+- React Router
+- Context API

@@ -1,29 +1,37 @@
+# ==========================================
+# HighCapital Project .gitignore
+# ==========================================
+
+# ==========================================
+# .NET Backend
+# ==========================================
+
 # Build outputs
 bin/
 obj/
+publish/
 
 # User-specific files
 *.user
 *.userosscache
 *.suo
-*.vs/
+*.userprefs
 
-# Rider IDE files
-.idea/
-
-# Visual Studio Code
+# Visual Studio / Visual Studio Code
+.vs/
 .vscode/
+*.sln.docstates
 
-# Dotnet publish folder
-publish/
-
-# Logs
-*.log
+# JetBrains Rider
+.idea/
 
 # NuGet Packages
 *.nupkg
 *.snupkg
 .nuget/
+packages/
+*.nuget.props
+*.nuget.targets
 
 # ASP.NET temporary files
 App_Data/
@@ -31,33 +39,180 @@ wwwroot/
 
 # Configuration files that may contain secrets
 appsettings.*.json
+!appsettings.json
+!appsettings.Example.json
 
-# React / Node.js
+# Entity Framework
+*.mdf
+*.ldf
+*.ndf
+
+# Test Results
+TestResults/
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Coverage reports
+*.coverage
+*.coveragexml
+coverage.cobertura.xml
+
+# ==========================================
+# React Frontend
+# ==========================================
+
+# Dependencies
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
 dist/
+dist-ssr/
 build/
+
+# Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# npm logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Package lock files (optional - uncomment if you want to ignore them)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ==========================================
+# Database
+# ==========================================
 
 # PostgreSQL
 *.psql-history
 
-# JetBrains Rider
-.idea/
+# ==========================================
+# Logs
+# ==========================================
 
-# Backup files
+logs/
+*.log
+
+# ==========================================
+# OS Generated Files
+# ==========================================
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==========================================
+# Backup and Temporary Files
+# ==========================================
+
 *.bak
 *.old
 *.orig
+*.swp
+*.swo
+*~
 
-# Others
-*.DS_Store
-Thumbs.db
+# ==========================================
+# IDE and Editor Files
+# ==========================================
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# ==========================================
+# Project Specific
+# ==========================================
+
+# Test coverage reports
+coverage/
+*.lcov
+
+# Temporary files
+temp/
+tmp/
+
+# ==========================================
+# Security
+# ==========================================
+
+# API Keys and secrets
+secrets.json
+*.key
+*.pem
+*.p12
+*.pfx
+
+# ==========================================
+# Misc
+# ==========================================
+
+# Archive files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Compressed files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
